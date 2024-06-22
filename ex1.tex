@@ -1,0 +1,313 @@
+\documentclass{article}
+\usepackage[utf8x]{inputenc}
+% \usepackage[english,hebrew]{babel}
+% \selectlanguage{English}
+\usepackage[top=2cm,bottom=2cm,left=2.5cm,right=2cm]{geometry}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{cancel}
+\title{Ex1 | Introduction to Networks}
+\author{Eran Ston (206704512) \and Oded Vaalany (208230474)}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\section{Question 1}
+\subsection{Part A}
+N+M end units that runs ALOHA protocol on the same channel as follows:
+\begin{itemize}
+    \item the slot length of all units is T seconds
+    \item Transmission time of a massage is T seconds
+    \item N units runs Slotted ALOHA with probability $p \in [0,1]$
+    \item M units runs Pure ALOHA with probability $q\in [0,1]$
+    \item all units have always a message to send
+\end{itemize}
+\subsubsection{Let's assume for unit who runs Slotted ALOHA there is $L \geq 1$ massages to send. what is the avarage time until all L massages will be sent?}
+the probabilty to send a massage in a slot is $p_{suc} = p(1-p)^{N-1} \cdot (1-q)^{2M}$.\\
+so the expected time to send a massage is $\frac{T}{p_{suc}}$.\\
+and therefore the avarage time to send L massages from the spesific unit is $\frac{TL}{P_{suc}}$ seconds.\\
+
+\subsubsection{Let's assume for unit who runs Pure ALOHA there is $L \geq 1$ massages to send. what is the avarage time until all L massages will be sent?}
+the probabilty to send a massage in a slot is $p_{suc} = (1-p)^{2N} \cdot q\cdot(1-q)^{2(M-1)}$. it means that all N "slotted" units didn't send a massage in 2 periods of clocks and and the M-1 "pure" units didn't send a massage.\\
+so the expected time to send a massage is $\frac{T}{p_{suc}}$.\\
+and therefore the avarage time to send L massages from the spesific unit is $\frac{TL}{P_{suc}}$ seconds.\\
+\subsubsection{what is the goodput of the channel?}
+
+let's define $P_{suc}$ as the probability to successful frame as:
+\begin{equation}
+    %  P_{suc} =  \bigg(Np(1-p)^{N-1}\cdot (1-q)^{2M}\bigg)+ \bigg(N(1-p)^{N}\cdot M\cdot q(1-q)^{2(M-1)}\bigg)
+     P_{suc} = N\cdot p(1-p)^{N-1}\cdot (1-q)^{2M}+M \cdot (1-p)^{2N} \cdot q \cdot (1-q)^{2(M-1)}
+\end{equation}
+let's define $T_{suc} = T$ when successful slot else $T_{suc} = 0$.
+\begin{equation}
+    \mathbb{E}[T_{suc}] = T \cdot p_{suc} + 0 \cdot (1-p_{suc}) = T \cdot p_{suc} 
+\end{equation}
+so the goodput is: 
+\begin{equation}
+    \frac{\mathbb{E}[T_{suc}]}{T} = p_{suc}
+\end{equation}
+\subsection{Part B}
+There is N units runs on "Slotted ALOHA" protocol in same a channel:
+\begin{itemize}
+    \item Bendwith of the channel is B divided to 3 forigen frequencies.
+    \item All frequencies's slots start at the same time.
+    \item Each unit always ready to sand a massage in probability of p
+\end{itemize}
+\subsubsection{let's assume when a unit wants to send a massage it uniformly choose one of the frequencies to send the massage.
+What is the probability for a single unit to send a massage successfully?}
+The proccess of a sucsess sendings of a node is like that:
+\begin{itemize}
+    \item The unit want to send a massage with probability of p
+    \item the unit choose one of the 3 frequencies with probability of $\frac13$
+    \item there is $\sum^{N-1}_{i=0} \binom{N-1}{i}$ options for the other N-1 units 
+    \item for each option the probability is $(\frac23)^{i}\cdot p^{i} \cdot (1-p)^{N-1-i}$ that in a specfic arrengment the units
+          that send a message are in the other 2 freq
+\end{itemize}
+now all we have to do in order to calculate the probability of a single unit to send a massage successfully is to sum all the options:
+\begin{equation}
+    \begin{aligned}
+        p_{suc} &= 3\cdot\bigg(\frac13 \cdot p\cdot \sum^{N-1}_{i=0} \binom{N-1}{i} \cdot (\frac23)^{i}\cdot p^{i} \cdot (1-p)^{N-1-i}\bigg)\\
+        &= p\cdot \sum^{N-1}_{i=0} \binom{N-1}{i} \cdot (\frac23)^{i}\cdot p^{i} \cdot (1-p)^{N-1-i}\\
+    \end{aligned}
+\end{equation}
+
+\subsubsection{what is the goodput of the channel?}
+we will calculate the goodput of each frequency and sum them up to get the goodput of the channel:
+\begin{equation}
+    \begin{aligned}
+        {p_1}_{suc} = N_1 \cdot p_1 ( 1-p_1)^{N_1-1}\\
+        {p_2}_{suc} = N_2 \cdot p_2 ( 1-p_2)^{N_2-1}\\
+        {p_3}_{suc} = N_3 \cdot p_3 ( 1-p_3)^{N_3-1}\\
+    \end{aligned}
+\end{equation}
+we have seen that the in "slotted ALOHA" the goodput is just the $p_{suc}$ so the goodput each freq is:
+\begin{equation}
+    \begin{aligned}
+        \eta_1 ={p_1}_{suc} = N_1 \cdot p_1 ( 1-p_1)^{N_1-1}\\
+        \eta_2 ={p_2}_{suc} = N_2 \cdot p_2 ( 1-p_2)^{N_2-1}\\
+        \eta_3 ={p_3}_{suc} = N_3 \cdot p_3 ( 1-p_3)^{N_3-1}\\
+    \end{aligned}
+\end{equation}
+since the the bendwith divided to 3 equal parts the goodput of the channel is wieghted sum of the goodputs of the frequencies:
+\begin{equation}
+    \begin{aligned}
+        \eta_{channel} = \frac13 \cdot \eta_1 + \frac13 \cdot \eta_2 + \frac13 \cdot \eta_3
+    \end{aligned}
+\end{equation}
+\subsubsection{}
+so we would like to maximize the goodput of the channel, we will do it by maximizing the goodput of each frequency.\\
+\begin{equation}
+    \begin{aligned}
+        \max_{p_1,p_2,p_3,N_1,N_2,N_3} & \eta_{channel}\\
+        s.t:& \\&N_1 + N_2 + N_3 = N\\
+        & p_1 \in [0,1], p_2 \in [0,1], p_3 \in [0,1]
+    \end{aligned}
+\end{equation}
+we have seen in the recitation that the maximum goodput is when $p_i = \frac{1}{N_i}$ so we will use this fact in order to solve the problem.
+so now we have to maximize the goodput of each frequency:
+\begin{equation}
+    \begin{aligned}
+        \max_{N_1,N_2,N_3} & \eta_{channel}\\
+        s.t: &N_1 + N_2 + N_3 = N
+    \end{aligned}
+\end{equation}
+we have seen that the maximum goodput is when $N_1 = N_2 = N_3 = \frac{N}{3}$ so params that maximize the goodput of the channel are:
+\begin{equation}
+    \begin{aligned}
+        p_1 = p_2 = p_3 = \frac{1}{N}\\
+        N_1 = N_2 = N_3 = \frac{N}{3}
+    \end{aligned}
+\end{equation}
+\section{Question 2}
+\subsection{subquestion 1}
+
+since we defined that when a unit has a massage to send, first it will listen to the channel and if it's free it will send the massage in the next slot. otherwise it choose randomize time to send the massage again.
+since we working with "slotted ALOHA" if there were a transmission in the previous slot it means that in the current slot there is massage to send.
+so the probability to send a massage in the current slot given that the previous slot there was a transmission is 0.
+
+\subsection{subquestion 2}
+The probability of not sending a message in the current slot given that the previous slot there wasn't a transmission is the probbality of each node havent 
+got a message in the previous slot. because if they got a message in the previous slot they will send a message in the current slot.
+so the probability of every node not getting a message is $P_{k=0}{(t =S)} = e^{-gS}$
+
+\subsection{subquestion 3}
+let B be the event that in the k-1 slot there was no transmission and A be the event that in the k slot there was no transmission.\\
+so according to section 2.1 and 2.2 we can write the following:
+\begin{equation}
+    \begin{aligned}
+        P(A|B) &= e^{-gS}\\
+        P(A|\overline{B}) &= 1
+    \end{aligned}
+\end{equation}
+so now we want to calculate the probability that in the k slot there was no transmission:
+\begin{equation}
+    \begin{aligned}
+        P(A) &= P(B)\cdot P(A|B) + P(\overline{B})P(A|\overline{B})\\
+        &= P(B)\cdot P(A|B) + (1-P(B))P(A|\overline{B})\\
+        & = P(B)\cdot P(A|B) + P(A|\overline{B}) -P(B)P(A|\overline{B})\\
+        \text{insert values} & = P(B)\cdot e^{-gS} + 1 -P(B)\\
+        P(B) &= P(B)\cdot e^{-gS} + 1 -P(B)
+    \end{aligned}
+\end{equation}
+and now we can solve:
+\begin{equation}
+    \begin{aligned}
+        &P(B) = P(B)\cdot e^{-gS} + 1 -P(B)\\
+        \iff& P(B)+P(B) - P(B)\cdot e^{-gS} = 1 \\
+        \iff& P(B)(2- e^{-gS}) = 1 \\
+        \iff& P(B) = \frac{1}{2- e^{-gS}}
+    \end{aligned}
+\end{equation}
+since $P_{empty} = P(A) = P(B)$ so we got that: $P_{empty} = \frac{1}{2- e^{-gS}}$\\
+
+
+let's define Q as the event that only one unit send a massage in the k slot.\\
+so we can get: $P(Q|B) = P_{k=1}(t=S)$,in addition from the question $P(Q|\overline{B}) = 0$ and therefore \\
+$P_{suc} = P(Q|B)\cdot P_{empty}+P(Q|\overline{B})\cdot (1-P_{empty}) = \frac{g\cdot S \cdot e^{-gS}}{2-e^{-gS}}$ \\
+To close things up since we have $P_{suc}$ we can conclude that the goodput is $P_{suc}$
+\subsection{subquestion 4}
+according to the recitation the goodput of the problem without the CSMA mechanism the goodput of slotted ALOHA is: $p_{suc} = g\cdot S \cdot e^{-gS}$\\
+since with CSMA we got $\eta = \frac{g\cdot S \cdot e^{-gS}}{2-e^{-gS}}$ and since $2-e^{-gS} > 1$ we can conclude that the goodput of the channel without CSMA is better than the goodput of the channel with CSMA.
+
+\section{Question 3}
+\subsection{subquestion 1}
+First we will calculate the goodput of units on freq A when lookin on 2T time frame:\\
+let's define $P^A_{suc} = \frac12 P^A_{suc}(\text{even})+ \frac12 P^A_{suc}(\text{odd})$ \\
+\begin{itemize}
+    \item $P^A_{suc}(\text{odd}) = 0$ becuase the node that listen dosen't listen to A freq when the slot is odd.
+    \item $P^A_{suc}(\text{even}) = P_{k=1}(t=T)$ becuase the node that listen to A freq when the slot is even.
+\end{itemize}
+So we got: $P^A_{suc} =\frac12 P^A_{suc}(\text{even}) = \frac12 P_{k=1}(t=T)$\\
+and therefore the goodput of the units on freq A is $P^A_{suc}$\\
+
+We will do the same for ferq B:\\
+let's define $P^B_{suc} = \frac12 P^B_{suc}(\text{even})+ \frac12 P^B_{suc}(\text{odd})$ \\
+\begin{itemize}
+    \item $P^B_{suc}(\text{odd}) = 0$ becuase the node that listen to B freq when the slot is odd.
+    \item $P^B_{suc}(\text{even}) = P_{k=1}(t=T)$  becuase the node that listen dosen't listen to B freq when the slot is even.
+\end{itemize}
+so we got: $P^B_{suc} =\frac12 P^A_{suc}(\text{even}) = \frac12 P_{k=1}(t=T)$\\
+and therefore the goodput of the units on freq B is $P^B_{suc}$\\
+
+The goodput of the network is: $\eta =\frac13 \eta_B  +\frac23 \eta_A = \frac14 gT\cdot e^{-\frac{gT}{2}}$
+
+\subsection{subquestion 2}
+Let's assume that the duration of sending a massage in frequency B is 2T.\\
+Like the previous question we can calculate the goodput of the units on freq A and B:\\
+the goodput of the units on freq A is: $P^A_{suc} = \frac12 P_{k=1}(t=T)$\\ same as the previous question.\\
+But now since the duration of sending a massage in frequency B is 2T we can understand the $P^B_{suc} = 0$ since duration of sending as massage is 2T and therefore the listening node would never listen to the full transmission.\\
+so the goodput of the network is: $\eta =\frac13 \eta_B  +\frac23 \eta_A = \frac13 \cdot 0 + \frac23 \cdot \frac14 \cdot gT\cdot e^{-\frac{gT}{2}} = \frac23 \cdot \frac14 \cdot gT\cdot e^{-\frac{gT}{2}} = \frac{{gT}\cdot e^{-\frac{gT}{2}}}{6}$
+
+\subsection{subquestion 3}
+Only in this section we will assume that the listening node listen to both frequencies in the same time.\\
+We would like to calculate the goodput of the network.\\
+we will calculate the goodput of the units on freq A and B:\\
+the goodput of the units on freq A is: $P^A_{suc} = P_{k=1}(t=T)$ (for T seconds)\\
+the goodput of the units on freq B is: $P^B_{suc} = P_{k=1}(t=2T)$ (for 2T seconds)\\
+so the goodput of the network is: $\eta =\frac13 \eta_B  +\frac23 \eta_A = \frac13 \cdot P_{k=1}(t=2T) + \frac23 \cdot P_{k=1}(t=T) = \frac13 gT \cdot e^{-gT} + \frac23 \cdot \frac{1}{2} \cdot gT \cdot e^{\frac{gT}{2}}  $
+
+\subsection{subquestion 4}
+In this section we will assume those:
+\begin{itemize}
+    \item All the nodes transmit in the same frequency.
+    \item The duration of sending a massage is 2T.
+    \item we will split the units to 2 groups:
+    \begin{itemize}
+        \item Half ot the units transmit only in the even slots. and the other half transmit only in the odd slots.
+        \item The massage arrival rate split equally between the 2 groups.
+    \end{itemize}
+\end{itemize}
+let's assume that one unit from one group start to send a massage In the k'th slot. we would like to calculate the probability that it could send the massage successfully.\\
+$P(A) =\overbrace{P_{k=0}(t=2T)}^{\text{no massage in k-1 and k-2}} \cdot \overbrace{P_{k=0}(t=2T)}^{\text{no massage in k-3 and k-4}} \cdot \overbrace{P_{k=0}(t=2T)}^{\text{no massage in k+1 and k}}$\\\\
+By the given that one unit start transmit in the k'th slot we want to demend that no massage will arive to the other units within its group in the k-4,k-3,k-2,k-1,k,k+1 slots\\
+$P(A) =  e^{-3gT}$
+
+\subsection{subquestion 5}
+Let's calculate the goodput of the network.\\
+$P_{suc}$ is the probability that one massage arrive in the k-1,k-2 slots in order to send a massage in the k slot. and no massage arrived in the k-4,k-3,k,k+2 slots to avoid any conflicts.\\
+$P^A_{suc}= P^B_{suc}= P_{k=1}(t=2T) \cdot P_{k=0}(t=2T) \cdot P_{k=0}(t=2T)= gT \cdot e^{-3gT}$\\
+$P_{suc}$ = $P^A_{suc} + P^B_{suc} = 2gT e^{-3gT}$
+and therefore the goodput of the network is $P_{suc}$  
+
+\section{Question 4}
+\subsection{Part A}
+There is network with N units. 
+\begin{itemize}
+    \item The distance between each 2 units is 7km.
+    \item $V_{prop} = 3.5\times 10^7[\frac{m}{s}]= 3.5 \times 10^{4} [\frac{km}{s}]$
+    \item The bendwith is $8[MBps]= 8 \cdot 10^{6} [Bps]$ 
+\end{itemize}
+\subsubsection{What is the minimal size of Packet in Byets that we can send using CSMA/CD protocol?}
+we will calculate $T_{prop} = \frac{7000m}{3.5\cdot 10^7 [\frac{m}{s}]}= \frac{7000s}{3.5\cdot 10^7}=\frac{7s}{3.5}\cdot 10^{-4} = 2\cdot 10^{-4} s = 0.0002 s$ so the time to send a signal from one unit to another is 0.0002 seconds or 200$\mu s$.\\
+so according to the formulas:
+\begin{equation}
+    \begin{aligned}
+        T_{trans} &= \frac{x}{Bendwith}\geq 2\cdot T_{prop}\\
+        \iff & \frac{x}{8\cdot 10^6[\frac{B}{s}]} \geq 2\cdot 2\cdot 10^{-4}s\\
+        \iff & x \geq 4\cdot 10^{-4}s \cdot 8 \cdot 10^6\cdot [\frac{B}{s}]\\
+        \iff & x \geq 32 \cdot 10^2[B] = 3200 [B]
+    \end{aligned}
+\end{equation}
+so the minimal size of Packet in Byets that we can send using CSMA/CD protocol is 3200 Bytes.
+
+\subsubsection{}
+The network manager decided to change the size of the packets in the network, Insted the size we calculated in the previous question he decided to send packets with size of 5000 Bytes.\\
+Under the the way we learned in the recitation we can calculate the goodput of the network. how this change will effect on the goodput\\
+
+In the recitation we learned that the goodput of the network is: $\eta = \frac{T_{trans}}{T_{trans}+2 \cdot T_{props}(\frac{1}{S}-1)}$\\ where S is the $P_{suc}$\\
+first we will calculate $T_{trans}$ when the packet size is 5000[B]: $\frac{5\cdot \cancel{10^3[B]}}{8\cdot 10^{6} [\frac{\cancel{B}}{s}]}= 6.25 \cdot 10^{-4}[s]$\\
+we want to say that the goodput of the network increase when the size of the packets increase.\\
+\begin{equation}
+    \begin{aligned}
+        \eta_{prev} &= \frac{4\cdot 10^{-4}[s]}{4\cdot 10^{-4}[s]+4 \cdot 10^{-4}[s](\frac{1}{S}-1)} \leq \frac{6.25 \cdot 10^{-4}[s]}{6.25\cdot 10^{-4}[s]+4\cdot 10^{-4}[s](\frac{1}{S}-1)} = \eta_{new}\\ 
+        \iff &  \frac{4[s]}{4[s]+4 [s](\frac{1}{S}-1)} \leq \frac{6.25 [s]}{6.25[s]+4(\frac{1}{S}-1)}\\ 
+        \iff &  \frac{1}{1+(\frac{1}{S}-1)} \leq \frac{1}{1+0.64(\frac{1}{S}-1)}\\
+        \text{since: } & 1+(\frac{1}{S}-1) \geq 1+0.64(\frac{1}{S}-1)\\
+        \Rightarrow & \eta_{prev} \leq \eta_{new}
+    \end{aligned}
+\end{equation}
+so the goodput of the network increase when the size of the packets increase. 
+
+\subsubsection{Now the network manager decided to increase the Bendwidth size and set the packet size to be 5000B. those there any constraints on the Bendwidth size?}
+In CSMA/CD protocol we need that $T_{Trans} \geq 2 \cdot T_{prop}$\\
+so we can calculate the minimal Bendwidth size that we need in order to send packets with size of 5000B:
+\begin{equation}
+    \begin{aligned}
+       & T_{trans} \geq 2 \cdot T_{props}\\
+        \iff &\frac{5 \cdot 10^{3}[B]}{x[\frac{B}{s}]} \geq 4 \cdot 10^{-4}[s]\\
+        \iff & \frac{5 \cdot 10^{3}[B]}{4\cdot 10^{-4}[s]} \geq x[\frac{B}{s}]\\
+        \iff & \frac{5}{4} \cdot 10^{7}[\frac{B}{s}] \geq x[\frac{B}{s}]\\
+    \end{aligned}
+\end{equation}
+so the maximal Bendwidth size that we need in order to send packets with size of 5000B is $\frac{5}{4} \cdot 10^{7}[\frac{B}{s}]$
+
+\subsubsection{Now the network manager decided to increase the Bendwidth size to 10MBps, under the assumption of goodput calculation for CSMA/CD protocol, how this change will effect on the goodput?}
+Lets assume that $x_1 > x_2$ and we will donate $y= 2\cdot T_{props}(\frac{1}{S}-1)$
+We need to remember that $y \geq 0$ and $S \in [0,1]$ and $T_{props} \geq 0$
+\begin{equation}
+    \begin{aligned}
+        \eta(x_1) &= \frac{x_1}{x_1+ y} \geq \frac{x_2}{x_2+ y} = \eta(x_2)\\
+        \iff & x_1(x_2+ y) \geq x_2(x_1+y)\\
+        \iff & x_1x_2 + x_1y \geq x_2x_1 + x_2y\\
+        \iff & x_1y \geq x_2y\\
+        \iff & x_1 \geq x_2
+    \end{aligned}
+\end{equation}
+So we can conclude that the goodput of the network increase when the $T_{trans}$ increase.
+so when we increase the Bendwidth $T_{trans}$ decrease and therefore the goodput of the network will decrease.\\
+finally, the goodput of the network will decrease in this case in respect to the packets size we talked about.
+\subsection{Part B}
+Let's define random variable X as the number of colosion untill success.\\
+Since the assumption that both units start to transmit on the same time, and the way that Ethernet protocol works.
+when there is a colosion the units will wait a random time between $\{0,...,2^{m}-1\}\cdot 512$ (where m is the number of colosions) and try to send the massage again.\\
+So when there is m colosions it's means that m times the units randomly choose that same time to send again the massage, And in the m+1 try they succeed so therefore they didn't choose the same time to send the massage again\\
+So finally got this formula: $P(X=m)= (1-\frac{1}{2^{m+1}})\prod^{m}_{i=1}\frac{1}{2^{i}}$
+
+And now we can calculate the expected value of X:
+\begin{equation}
+    \begin{aligned}
+        E[X] &= \sum^{\infty}_{m=0} m\cdot P(X=m) = \sum^{\infty}_{m=0} m\cdot (1-\frac{1}{2^{m+1}})\prod^{m}_{i=1}\frac{1}{2^{i}} \\
+    \end{aligned}
+\end{equation}
+\end{document}
