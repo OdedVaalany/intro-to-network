@@ -1,0 +1,22 @@
+<mxfile host="app.diagrams.net" modified="2024-06-28T11:29:20.567Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" etag="6nZCbS6yJgdbIT4XcV8-" version="24.5.1" type="device">
+  <diagram name="Page-1" id="3bcyNXrigdDjJn6muD6I">
+    <mxGraphModel dx="717" dy="548" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="wpkIcSyOixyVPj7GZLtv-1" value="Local DNS&lt;div&gt;Resolver&lt;/div&gt;" style="verticalLabelPosition=bottom;sketch=0;aspect=fixed;html=1;verticalAlign=top;strokeColor=none;align=center;outlineConnect=0;shape=mxgraph.citrix.dns_server;" vertex="1" parent="1">
+          <mxGeometry x="190" y="210" width="43.42" height="52.5" as="geometry" />
+        </mxCell>
+        <mxCell id="wpkIcSyOixyVPj7GZLtv-2" value="root&lt;div&gt;DNS Server&lt;/div&gt;" style="verticalLabelPosition=bottom;sketch=0;aspect=fixed;html=1;verticalAlign=top;strokeColor=none;align=center;outlineConnect=0;shape=mxgraph.citrix.dns_server;" vertex="1" parent="1">
+          <mxGeometry x="340" y="70" width="43.42" height="52.5" as="geometry" />
+        </mxCell>
+        <mxCell id="wpkIcSyOixyVPj7GZLtv-4" value=".com&lt;div&gt;DNS server&lt;/div&gt;" style="verticalLabelPosition=bottom;sketch=0;aspect=fixed;html=1;verticalAlign=top;strokeColor=none;align=center;outlineConnect=0;shape=mxgraph.citrix.dns_server;" vertex="1" parent="1">
+          <mxGeometry x="460" y="160" width="43.42" height="52.5" as="geometry" />
+        </mxCell>
+        <mxCell id="wpkIcSyOixyVPj7GZLtv-22" value="drekflix.com&lt;div&gt;DNS server&lt;/div&gt;" style="verticalLabelPosition=bottom;sketch=0;aspect=fixed;html=1;verticalAlign=top;strokeColor=none;align=center;outlineConnect=0;shape=mxgraph.citrix.dns_server;" vertex="1" parent="1">
+          <mxGeometry x="460" y="280" width="43.42" height="52.5" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
