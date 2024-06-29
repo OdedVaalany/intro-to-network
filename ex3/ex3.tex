@@ -424,7 +424,7 @@ Now the edge CD changes from 8 to 32. we will show the distance vectors of all t
     \hline
     A & 0 & 18 & 12 & 4 \\
     C & 12 & 7 & 0 & 8 \\
-    D & 4 & 15 & \color{red}16 & 0 \\
+    D & 4 & \color{red}22 & \color{red}16 & 0 \\
     \hline
 \end{tabular}
 \end{tabular}
@@ -443,7 +443,7 @@ Now the edge CD changes from 8 to 32. we will show the distance vectors of all t
     A & 0 & 18 & 12 & 4 \\
     B & 18 & 0 & 7 & 15 \\
     C & \color{red}25 & 7 & 0 & \color{red}22 \\
-    D & 4 & 15 & \color{red}16 & 0 \\
+    D & 4 & \color{red}22 & \color{red}16 & 0 \\
     \hline
     \hline
     Node B & A & B & C & D \\
@@ -458,14 +458,14 @@ Now the edge CD changes from 8 to 32. we will show the distance vectors of all t
     A & 0 & 18 & 12 & 4 \\
     B & 18 & 0 & 7 & 15 \\
     C & 25 & 7 & 0 & 22 \\
-    D & 4 & 15 & \color{red}16 & 0 \\
+    D & 4 & \color{red}22 & \color{red}16 & 0 \\
     \hline
     \hline
     Node D & A & B & C & D \\
     \hline
     A & 0 & 18 & 12 & 4 \\
     C & \color{red}25 & 7 & 0 & \color{red}22 \\
-    D & 4 & 15 & 16 & 0 \\
+    D & 4 & \color{red}22 & \color{red}16 & 0 \\
     \hline
 \end{tabular}
 & \centering $\Rightarrow$&
@@ -476,7 +476,7 @@ Now the edge CD changes from 8 to 32. we will show the distance vectors of all t
     A & 0 & 18 & \color{red}20 & 4 \\
     B & 18 & 0 & 7 & 15 \\
     C & 25 & 7 & 0 & 22 \\
-    D & 4 & 15 & 16 & 0 \\
+    D & 4 & 22 & 16 & 0 \\
     \hline
     \hline
     Node B & A & B & C & D \\
@@ -490,15 +490,15 @@ Now the edge CD changes from 8 to 32. we will show the distance vectors of all t
     \hline
     A & 0 & 18 & 12 & 4 \\
     B & 18 & 0 & 7 & 15 \\
-    C & \color{red}25 & 7 & 0 & 22 \\
-    D & 4 & 15 & 16 & 0 \\
+    C & 25 & 7 & 0 & \color{red}30 \\
+    D & 4 & 22 & 16 & 0 \\
     \hline
     \hline
     Node D & A & B & C & D \\
     \hline
     A & 0 & 18 & 12 & 4 \\
     C & 25 & 7 & 0 & 22 \\
-    D & 4 & \color{red}22 & 16 & 0 \\
+    D & 4 & 22 & 16 & 0 \\
     \hline
 \end{tabular}
 \end{tabular}
@@ -516,30 +516,30 @@ Now the edge CD changes from 8 to 32. we will show the distance vectors of all t
         \hline
         A & 0 & 18 & \color{red}20 & 4 \\
         B & 18 & 0 & 7 & \color{red}22 \\
-        C & \color{red}25 & 7 & 0 & 22 \\
-        D & 4 & \color{red}22 & 16 & 0 \\
+        C & 25 & 7 & 0 & \color{red}30 \\
+        D & 4 & 22 & 16 & 0 \\
         \hline
         \hline
         Node B & A & B & C & D \\
         \hline 
         A & 0 & 18 & \color{red}20 & 4 \\
         B & 18 & 0 & 7 & \color{red}22 \\
-        C & \color{red}25 & 7 & 0 & 22 \\
+        C & 25 & 7 & 0 & \color{red}30 \\
         \hline
         \hline
         Node C & A & B & C & D \\
         \hline
         A & 0 & 18 & \color{red}20 & 4 \\
         B & 18 & 0 & 7 & \color{red}22 \\
-        C & \color{red}25 & 7 & 0 & 22 \\
-        D & 4 & \color{red}22 & 16 & 0 \\
+        C & 25 & 7 & 0 & \color{red}30 \\
+        D & 4 & 22 & 16 & 0 \\
         \hline
         \hline
         Node D & A & B & C & D \\
         \hline
         A & 0 & 18 & \color{red}20 & 4 \\
-        C & \color{red}25 & 7 & 0 & 22 \\
-        D & 4 & \color{red}22 & 16 & 0 \\
+        C & 25 & 7 & 0 & \color{red}30 \\
+        D & 4 & 22 & 16 & 0 \\
         \hline
     \end{tabular}
 & \centering $\Rightarrow$&
@@ -549,7 +549,7 @@ Now the edge CD changes from 8 to 32. we will show the distance vectors of all t
     \hline
     A & 0 & 18 & 20 & 4 \\
     B & 18 & 0 & 7 & 22 \\
-    C & 25 & 7 & 0 & 22 \\
+    C & 25 & 7 & 0 & 30 \\
     D & 4 & 22 & 16 & 0 \\
     \hline
     \hline
@@ -557,7 +557,7 @@ Now the edge CD changes from 8 to 32. we will show the distance vectors of all t
     \hline 
     A & 0 & 18 & 20 & 4 \\
     B & 18 & 0 & 7 & 22 \\
-    C & 25 & 7 & 0 & 22 \\
+    C & 25 & 7 & 0 & 30 \\
     \hline
     \hline
     Node C & A & B & C & D \\
@@ -571,7 +571,7 @@ Now the edge CD changes from 8 to 32. we will show the distance vectors of all t
     Node D & A & B & C & D \\
     \hline
     A & 0 & 18 & 20 & 4 \\
-    C & 25 & 7 & 0 & 22 \\
+    C & 25 & 7 & 0 & 30 \\
     D & 4 & 22 & \color{red}24 & 0 \\
     \hline
 \end{tabular}
