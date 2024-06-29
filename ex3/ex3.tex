@@ -8,6 +8,7 @@
 \usepackage{cancel}
 \usepackage{graphicx}
 \usepackage{tabularx}
+\usepackage{parcolumns,lipsum}
 \usepackage{tikz}
 \usetikzlibrary{shapes,positioning}
 \title{Ex1 | Introduction to Networks}
@@ -113,9 +114,9 @@ so we will receive the following TTLs:
 
 
 \subsubsection{subquestion 1}
-Since there were a storm that cause dammage to the main DNS server, the DNS server is not available. The DNS server is the one that responsible for the domain '.mad'. And even tho the Server how host the domain `www.brass-monkey-saloon.mad' in order to resolve this address the Local DNS resolver needs first to resolve the domain '.mad'. Since the main DNS server is not available the Local DNS resolver can't resolve the domain '.mad' and therefore can't resolve the domain `www.brass-monkey-saloon.mad'. 
+Since there were a storm that cause dammage to the main DNS server, the DNS server is not available. The DNS server is the one that responsible for the domain '.mad'. And even tho the Server who host the domain `www.brass-monkey-saloon.mad' in order to resolve this address the Local DNS resolver needs first to resolve the domain '.mad'. Since the main DNS server is not available the Local DNS resolver can't resolve the domain '.mad' and therefore can't resolve the domain `www.brass-monkey-saloon.mad'. 
 \subsubsection{subquestion 2}
-The resone why it takes time after the DNS server dammage until the traffic in Madripor failed is because the cached domain in the local DNS resolvers. The TTL of the records in the local DNS resolvers is not expired yet, and therefore the local DNS resolvers can still resolve the domains end with '.mad'. Since the resolvers are probabliy local and the storme dammage hit far away from the country, the local DNS resolvers can still resolve the domains. 
+The reasone why it takes time after the DNS server dammage until the traffic in Madripor failed is because the cached domain in the local DNS resolvers. The TTL of the records in the local DNS resolvers is not expired yet, and therefore the local DNS resolvers can still resolve the domains end with '.mad'. Since the resolvers are probabliy local and the storme dammage hit far away from the country, the local DNS resolvers can still resolve the domains. 
 
 The time it takes until the traffic in Madripor failed is the time it takes until the TTL of the records in the local DNS resolvers expired.
 \section{Question 3}
@@ -133,4 +134,797 @@ In Distance Vector Protocol we will split the time to synced time units between 
 Given the following graph: \\
 \includegraphics[width=0.9\textwidth]{Screenshot 2024-06-28 at 14.59.41.png}
 
+\subsection{Subquestion 1}
+assume that the net is stable for $t_0$ and all the distance vectors are updated.
+we made a change in edge AB from 18 to 1. we will show the distance vectors of all the vertexes in the $t_1,t_2$\\
+
+
+
+\begin{tabular}{p{0.4\linewidth} p{0.1\linewidth} p{0.4\linewidth}}
+
+    This is the distance vectors of all the vertexes in the $t_0$: & & When the weight of the edge AB changes to 1, A,B imidiately update their distance vector and will send them in the next time unit $t_1$. Therefore this will be the effect on the changes\\
+\begin{tabular}{c|c|c|c|c}
+    \hline
+    Node A & A & B & C & D \\
+    \hline
+    A & 0 & 18 & 12 & 4 \\
+    B & 18 & 0 & 7 & 15 \\
+    C & 12 & 7 & 0 & 8 \\
+    D & 4 & 15 & 8 & 0 \\
+    \hline
+    \hline
+    Node B & A & B & C & D \\
+    \hline 
+    A & 0 & 18 & 12 & 4 \\
+    B & 18 & 0 & 7 & 15 \\
+    C & 12 & 7 & 0 & 8 \\
+    \hline
+    \hline
+    Node C & A & B & C & D \\
+    \hline
+    A & 0 & 18 & 12 & 4 \\
+    B & 18 & 0 & 7 & 15 \\
+    C & 12 & 7 & 0 & 8 \\
+    D & 4 & 15 & 8 & 0 \\
+    \hline
+    \hline
+    Node D & A & B & C & D \\
+    \hline
+    A & 0 & 18 & 12 & 4 \\
+    C & 12 & 7 & 0 & 8 \\
+    D & 4 & 15 & 8 & 0 \\
+    \hline
+\end{tabular}
+& \centering $\Rightarrow$&
+    \begin{tabular}{c|c|c|c|c}
+        \hline
+        Node A & A & B & C & D \\
+        \hline
+        A & 0 & \color{red}1 & \color{red}8 & 4 \\
+        B & 18 & 0 & 7 & 15 \\
+        C & 12 & 7 & 0 & 8 \\
+        D & 4 & 15 & 8 & 0 \\
+        \hline
+        \hline
+        Node B & A & B & C & D \\
+        \hline 
+        A & 0 & 18 & 12 & 4 \\
+        B & \color{red}1 & 0 & 7 & \color{red}5 \\
+        C & 12 & 7 & 0 & 8 \\
+        \hline
+        \hline
+        Node C & A & B & C & D \\
+        \hline
+        A & 0 & 18 & 12 & 4 \\
+        B & 18 & 0 & 7 & 15 \\
+        C & 12 & 7 & 0 & 8 \\
+        D & 4 & 15 & 8 & 0 \\
+        \hline
+        \hline
+        Node D & A & B & C & D \\
+        \hline
+        A & 0 & 18 & 12 & 4 \\
+        C & 12 & 7 & 0 & 8 \\
+        D & 4 & 15 & 8 & 0 \\
+        \hline
+    \end{tabular}
+\end{tabular}
+
+\textbf{Now we will show the before and after with time unit $t_1$}\\
+\begin{tabular}{p{0.4\linewidth} p{0.1\linewidth} p{0.4\linewidth}}
+    After receiving the distance vectors from the neighbors &  & End of $t_1$ \\
+    \begin{tabular}{c|c|c|c|c}
+        \hline
+        Node A & A & B & C & D \\
+        \hline
+        A & 0 & \color{red}1 & \color{red}8 & 4 \\
+        B & \color{red}1 & 0 & 7 & \color{red}5 \\
+        C & 12 & 7 & 0 & 8 \\
+        D & 4 & 15 & 8 & 0 \\
+        \hline
+        \hline
+        Node B & A & B & C & D \\
+        \hline 
+        A & 0 & \color{red}1 & \color{red}8 & 4 \\
+        B & \color{red}1 & 0 & 7 & \color{red}5 \\
+        C & 12 & 7 & 0 & 8 \\
+        \hline
+        \hline
+        Node C & A & B & C & D \\
+        \hline
+        A & 0 & \color{red}1 & \color{red}8 & 4 \\
+        B & \color{red}1 & 0 & 7 & \color{red}5 \\
+        C & 12 & 7 & 0 & 8 \\
+        D & 4 & 15 & 8 & 0 \\
+        \hline
+        \hline
+        Node D & A & B & C & D \\
+        \hline
+        A & 0 & \color{red}1 & \color{red}8 & 4 \\
+        C & 12 & 7 & 0 & 8 \\
+        D & 4 & 15 & 8 & 0 \\
+        \hline
+    \end{tabular}
+    & \centering $\Rightarrow$&
+
+    \begin{tabular}{c|c|c|c|c}
+        \hline
+        Node A & A & B & C & D \\
+        \hline
+        A & 0 & 1 & 8 & 4 \\
+        B & 1 & 0 & 7 & 5 \\
+        C & 12 & 7 & 0 & 8 \\
+        D & 4 & 15 & 8 & 0 \\
+        \hline
+        \hline
+        Node B & A & B & C & D \\
+        \hline 
+        A & 0 & 1 & 8 & 4 \\
+        B & 1 & 0 & 7 & 5 \\
+        C & 12 & 7 & 0 & 8 \\
+        \hline
+        \hline
+        Node C & A & B & C & D \\
+        \hline
+        A & 0 & 1 & 8 & 4 \\
+        B & 1 & 0 & 7 & 5 \\
+        C & \color{red}8 & 7 & 0 & 8 \\
+        D & 4 & 15 & 8 & 0 \\
+        \hline
+        \hline
+        Node D & A & B & C & D \\
+        \hline
+        A & 0 & 1 & 8 & 4 \\
+        C & 12 & 7 & 0 & 8 \\
+        D & 4 & \color{red}5 & 8 & 0 \\
+        \hline
+
+
+    \end{tabular}
+
+\end{tabular}\\
+
+\textbf{Now we will show the before and after with time unit $t_2$}\\
+\begin{tabular}{p{0.4\linewidth} p{0.1\linewidth} p{0.4\linewidth}}
+    After Receiving the distance vectors from the neighbors &  & End of $t_2$ \\
+    \begin{tabular}{c|c|c|c|c}
+        \hline
+        Node A & A & B & C & D \\
+        \hline
+        A & 0 & 1 & 8 & 4 \\
+        B & 1 & 0 & 7 & 5 \\
+        C & \color{red}8 & 7 & 0 & 8 \\
+        D & 4 & \color{red}5 & 8 & 0 \\
+        \hline
+        \hline
+        Node B & A & B & C & D \\
+        \hline 
+        A & 0 & 1 & 8 & 4 \\
+        B & 1 & 0 & 7 & 5 \\
+        C & \color{red}8 & 7 & 0 & 8 \\
+        \hline
+        \hline
+        Node C & A & B & C & D \\
+        \hline
+        A & 0 & 1 & 8 & 4 \\
+        B & 1 & 0 & 7 & 5 \\
+        C & 8 & 7 & 0 & 8 \\
+        D & 4 & \color{red}5 & 8 & 0 \\
+        \hline
+        \hline
+        Node D & A & B & C & D \\
+        \hline
+        A & 0 & 1 & 8 & 4 \\
+        C & \color{red}8 & 7 & 0 & 8 \\
+        D & 4 & 5 & 8 & 0 \\
+        \hline
+    \end{tabular}
+    & \centering $\Rightarrow$&
+    \begin{tabular}{c|c|c|c|c}
+        \hline
+        Node A & A & B & C & D \\
+        \hline
+        A & 0 & 1 & 8 & 4 \\
+        B & 1 & 0 & 7 & 5 \\
+        C & 8 & 7 & 0 & 8 \\
+        D & 4 & 5 & 8 & 0 \\
+        \hline
+        \hline
+        Node B & A & B & C & D \\
+        \hline 
+        A & 0 & 1 & 8 & 4 \\
+        B & 1 & 0 & 7 & 5 \\
+        C & 8 & 7 & 0 & 8 \\
+        \hline
+        \hline
+        Node C & A & B & C & D \\
+        \hline
+        A & 0 & 1 & 8 & 4 \\
+        B & 1 & 0 & 7 & 5 \\
+        C & 8 & 7 & 0 & 8 \\
+        D & 4 & 5 & 8 & 0 \\
+        \hline
+        \hline
+        Node D & A & B & C & D \\
+        \hline
+        A & 0 & 1 &  8 & 4 \\
+        C & 8 & 7 & 0 & 8 \\
+        D & 4 & 5 & 8 & 0 \\
+        \hline
+    \end{tabular}
+
+
+\end{tabular}
+
+\subsection{Subquestion 2}
+Now the edge CD changes from 8 to 32. we will show the distance vectors of all the vertexes in the $t_1,t_2,t_3$\\
+\newline
+\begin{tabular}{p{0.4\linewidth} p{0.1\linewidth} p{0.4\linewidth}}
+
+    This is the distance vectors of all the vertexes in the $t_0$: &  & When the weight of the edge DC changes to 32, D,C imidiately update their distance vector and will send them in the next time unit $t_1$. Therefore this will be the effect on the changes\\
+\begin{tabular}{c|c|c|c|c}
+    \hline
+    Node A & A & B & C & D \\
+    \hline
+    A & 0 & 18 & 12 & 4 \\
+    B & 18 & 0 & 7 & 15 \\
+    C & 12 & 7 & 0 & 8 \\
+    D & 4 & 15 & 8 & 0 \\
+    \hline
+    \hline
+    Node B & A & B & C & D \\
+    \hline 
+    A & 0 & 18 & 12 & 4 \\
+    B & 18 & 0 & 7 & 15 \\
+    C & 12 & 7 & 0 & 8 \\
+    \hline
+    \hline
+    Node C & A & B & C & D \\
+    \hline
+    A & 0 & 18 & 12 & 4 \\
+    B & 18 & 0 & 7 & 15 \\
+    C & 12 & 7 & 0 & 8 \\
+    D & 4 & 15 & 8 & 0 \\
+    \hline
+    \hline
+    Node D & A & B & C & D \\
+    \hline
+    A & 0 & 18 & 12 & 4 \\
+    C & 12 & 7 & 0 & 8 \\
+    D & 4 & 15 & 8 & 0 \\
+    \hline
+\end{tabular}
+& \centering $\Rightarrow$&
+\begin{tabular}{c|c|c|c|c}
+    \hline
+    Node A & A & B & C & D \\
+    \hline
+    A & 0 & 18 & 12 & 4 \\
+    B & 18 & 0 & 7 & 15 \\
+    C & 12 & 7 & 0 & 8 \\
+    D & 4 & 15 & 8 & 0 \\
+    \hline
+    \hline
+    Node B & A & B & C & D \\
+    \hline 
+    A & 0 & 18 & 12 & 4 \\
+    B & 18 & 0 & 7 & 15 \\
+    C & 12 & 7 & 0 & 8 \\
+    \hline
+    \hline
+    Node C & A & B & C & D \\
+    \hline
+    A & 0 & 18 & 12 & 4 \\
+    B & 18 & 0 & 7 & 15 \\
+    C & \color{red}25 & 7 & 0 & \color{red}22 \\
+    D & 4 & 15 & 8 & 0 \\
+    \hline
+    \hline
+    Node D & A & B & C & D \\
+    \hline
+    A & 0 & 18 & 12 & 4 \\
+    C & 12 & 7 & 0 & 8 \\
+    D & 4 & 15 & \color{red}16 & 0 \\
+    \hline
+\end{tabular}
+\end{tabular}
+\newline
+\textbf{Now we will show the before and after with time unit $t_1$}\\
+\newline
+
+\begin{tabular}{p{0.4\linewidth} p{0.1\linewidth} p{0.4\linewidth}}
+
+    After Receiving the distance vectors from the
+    neighbors &  & End of $t_1$ \\
+\begin{tabular}{c|c|c|c|c}
+    \hline
+    Node A & A & B & C & D \\
+    \hline
+    A & 0 & 18 & 12 & 4 \\
+    B & 18 & 0 & 7 & 15 \\
+    C & \color{red}25 & 7 & 0 & \color{red}22 \\
+    D & 4 & 15 & \color{red}16 & 0 \\
+    \hline
+    \hline
+    Node B & A & B & C & D \\
+    \hline 
+    A & 0 & 18 & 12 & 4 \\
+    B & 18 & 0 & 7 & 15 \\
+    C & \color{red}25 & 7 & 0 & \color{red}22 \\
+    \hline
+    \hline
+    Node C & A & B & C & D \\
+    \hline
+    A & 0 & 18 & 12 & 4 \\
+    B & 18 & 0 & 7 & 15 \\
+    C & 25 & 7 & 0 & 22 \\
+    D & 4 & 15 & \color{red}16 & 0 \\
+    \hline
+    \hline
+    Node D & A & B & C & D \\
+    \hline
+    A & 0 & 18 & 12 & 4 \\
+    C & \color{red}25 & 7 & 0 & \color{red}22 \\
+    D & 4 & 15 & 16 & 0 \\
+    \hline
+\end{tabular}
+& \centering $\Rightarrow$&
+\begin{tabular}{c|c|c|c|c}
+    \hline
+    Node A & A & B & C & D \\
+    \hline
+    A & 0 & 18 & \color{red}20 & 4 \\
+    B & 18 & 0 & 7 & 15 \\
+    C & 25 & 7 & 0 & 22 \\
+    D & 4 & 15 & 16 & 0 \\
+    \hline
+    \hline
+    Node B & A & B & C & D \\
+    \hline 
+    A & 0 & 18 & 12 & 4 \\
+    B & 18 & 0 & 7 & \color{red}22 \\
+    C & 25 & 7 & 0 & 22 \\
+    \hline
+    \hline
+    Node C & A & B & C & D \\
+    \hline
+    A & 0 & 18 & 12 & 4 \\
+    B & 18 & 0 & 7 & 15 \\
+    C & \color{red}25 & 7 & 0 & 22 \\
+    D & 4 & 15 & 16 & 0 \\
+    \hline
+    \hline
+    Node D & A & B & C & D \\
+    \hline
+    A & 0 & 18 & 12 & 4 \\
+    C & 25 & 7 & 0 & 22 \\
+    D & 4 & \color{red}22 & 16 & 0 \\
+    \hline
+\end{tabular}
+\end{tabular}
+
+\textbf{Now we will show the before and after with time unit $t_2$}\\
+\newline
+
+\begin{tabular}{p{0.4\linewidth} p{0.1\linewidth} p{0.4\linewidth}}
+
+    After Receiving the distance vectors from the
+    neighbors &  & End of $t_2$ \\
+    \begin{tabular}{c|c|c|c|c}
+        \hline
+        Node A & A & B & C & D \\
+        \hline
+        A & 0 & 18 & \color{red}20 & 4 \\
+        B & 18 & 0 & 7 & \color{red}22 \\
+        C & \color{red}25 & 7 & 0 & 22 \\
+        D & 4 & \color{red}22 & 16 & 0 \\
+        \hline
+        \hline
+        Node B & A & B & C & D \\
+        \hline 
+        A & 0 & 18 & \color{red}20 & 4 \\
+        B & 18 & 0 & 7 & \color{red}22 \\
+        C & \color{red}25 & 7 & 0 & 22 \\
+        \hline
+        \hline
+        Node C & A & B & C & D \\
+        \hline
+        A & 0 & 18 & \color{red}20 & 4 \\
+        B & 18 & 0 & 7 & \color{red}22 \\
+        C & \color{red}25 & 7 & 0 & 22 \\
+        D & 4 & \color{red}22 & 16 & 0 \\
+        \hline
+        \hline
+        Node D & A & B & C & D \\
+        \hline
+        A & 0 & 18 & \color{red}20 & 4 \\
+        C & \color{red}25 & 7 & 0 & 22 \\
+        D & 4 & \color{red}22 & 16 & 0 \\
+        \hline
+    \end{tabular}
+& \centering $\Rightarrow$&
+\begin{tabular}{c|c|c|c|c}
+    \hline
+    Node A & A & B & C & D \\
+    \hline
+    A & 0 & 18 & 20 & 4 \\
+    B & 18 & 0 & 7 & 22 \\
+    C & 25 & 7 & 0 & 22 \\
+    D & 4 & 22 & 16 & 0 \\
+    \hline
+    \hline
+    Node B & A & B & C & D \\
+    \hline 
+    A & 0 & 18 & 20 & 4 \\
+    B & 18 & 0 & 7 & 22 \\
+    C & 25 & 7 & 0 & 22 \\
+    \hline
+    \hline
+    Node C & A & B & C & D \\
+    \hline
+    A & 0 & 18 & 20 & 4 \\
+    B & 18 & 0 & 7 & 22 \\
+    C & 25 & 7 & 0 & \color{red}29 \\
+    D & 4 & 22 & 16 & 0 \\
+    \hline
+    \hline
+    Node D & A & B & C & D \\
+    \hline
+    A & 0 & 18 & 20 & 4 \\
+    C & 25 & 7 & 0 & 22 \\
+    D & 4 & 22 & \color{red}24 & 0 \\
+    \hline
+\end{tabular}
+\end{tabular}
+
+\textbf{Now we will show the before and after with time unit $t_3$}\\
+\newline
+
+\begin{tabular}{p{0.4\linewidth} p{0.1\linewidth} p{0.4\linewidth}}
+
+    After Receiving the distance vectors from the
+    neighbors &  & End of $t_3$ \\
+    \begin{tabular}{c|c|c|c|c}
+        \hline
+        Node A & A & B & C & D \\
+        \hline
+        A & 0 & 18 & 20 & 4 \\
+        B & 18 & 0 & 7 & 22 \\
+        C & 25 & 7 & 0 & \color{red}29 \\
+        D & 4 & 22 & \color{red}24 & 0 \\
+        \hline
+        \hline
+        Node B & A & B & C & D \\
+        \hline 
+        A & 0 & 18 & 20 & 4 \\
+        B & 18 & 0 & 7 & 22 \\
+        C & 25 & 7 & 0 & \color{red}29 \\
+        \hline
+        \hline
+        Node C & A & B & C & D \\
+        \hline
+        A & 0 & 18 & 20 & 4 \\
+        B & 18 & 0 & 7 & 22 \\
+        C & 25 & 7 & 0 & \color{red}29 \\
+        D & 4 & 22 & \color{red}24 & 0 \\
+        \hline
+        \hline
+        Node D & A & B & C & D \\
+        \hline
+        A & 0 & 18 & 20 & 4 \\
+        C & 25 & 7 & 0 & \color{red}29 \\
+        D & 4 & 22 & \color{red}24 & 0 \\
+        \hline
+    \end{tabular}
+& \centering $\Rightarrow$&
+\begin{tabular}{c|c|c|c|c}
+    \hline
+    Node A & A & B & C & D \\
+    \hline
+    A & 0 & 18 & \color{red}25 & 4 \\
+    B & 18 & 0 & 7 & 22 \\
+    C & 25 & 7 & 0 & 29 \\
+    D & 4 & 22 & 24 & 0 \\
+    \hline
+    \hline
+    Node B & A & B & C & D \\
+    \hline 
+    A & 0 & 18 & 20 & 4 \\
+    B & 18 & 0 & 7 & 22 \\
+    C & 25 & 7 & 0 & 29 \\
+    \hline
+    \hline
+    Node C & A & B & C & D \\
+    \hline
+    A & 0 & 18 & 20 & 4 \\
+    B & 18 & 0 & 7 & 22 \\
+    C & 25 & 7 & 0 & 29 \\
+    D & 4 & 22 & 24 & 0 \\
+    \hline
+    \hline
+    Node D & A & B & C & D \\
+    \hline
+    A & 0 & 18 & 20 & 4 \\
+    C & 25 & 7 & 0 & 29 \\
+    D & 4 & 22 & 24 & 0 \\
+    \hline
+\end{tabular}
+\end{tabular}
+
+\subsection{subquestion 3}
+Now we will show the run using the poisoned reverse technique.\\
+
+\begin{tabular}{p{0.4\linewidth} p{0.1\linewidth} p{0.4\linewidth}}
+    The DV before the change & $t_0$ & The DV after the change \\
+    \begin{tabular}{c|c|c|c|c}
+        \hline
+        Node A & A & B & C & D \\
+        \hline
+        A & 0 & 18 & 12 & 4 \\
+        B & 18 & 0 & 7 & 15 \\
+        C & 12 & 7 & 0 & 8 \\
+        D & 4 & 15 & 8 & 0 \\
+        \hline
+        \hline
+        Node B & A & B & C & D \\
+        \hline 
+        A & 0 & 18 & 12 & 4 \\
+        B & 18 & 0 & 7 & 15 \\
+        C & 12 & 7 & 0 & 8 \\
+        \hline
+        \hline
+        Node C & A & B & C & D \\
+        \hline
+        A & 0 & 18 & 12 & 4 \\
+        B & 18 & 0 & 7 & 15 \\
+        C & 12 & 7 & 0 & 8 \\
+        D & 4 & 15 & 8 & 0 \\
+        \hline
+        \hline
+        Node D & A & B & C & D \\
+        \hline
+        A & 0 & 18 & 12 & 4 \\
+        C & 12 & 7 & 0 & 8 \\
+        D & 4 & 15 & 8 & 0 \\
+        \hline
+    \end{tabular}
+    &  $\Rightarrow$&
+    \begin{tabular}{c|c|c|c|c}
+        \hline
+        Node A & A & B & C & D \\
+        \hline
+        A & 0 & 18 & 12 & 4 \\
+        B & 18 & 0 & 7 & 15 \\
+        C & 12 & 7 & 0 & 8 \\
+        D & 4 & 15 & 8 & 0 \\
+        \hline
+        \hline
+        Node B & A & B & C & D \\
+        \hline 
+        A & 0 & 18 & 12 & 4 \\
+        B & 18 & 0 & 7 & 15 \\
+        C & 12 & 7 & 0 & 8 \\
+        \hline
+        \hline
+        Node C & A & B & C & D \\
+        \hline
+        A & 0 & 18 & 12 & 4 \\
+        B & 18 & 0 & 7 & \color{red}$\infty$ \\
+        C & \color{red}25 & 7 & 0 & \color{red}30 \\
+        D & 4 & 15 & 8 & 0 \\
+        \hline
+        \hline
+        Node D & A & B & C & D \\
+        \hline
+        A & 0 & 18 & \color{red}$\infty$ & 4 \\
+        C & 12 & 7 & 0 & 8 \\
+        D & 4 & \color{red}22 & \color{red}32 & 0 \\
+        \hline
+    \end{tabular} \\ \\ \\ 
+
+    The DV after the change & $t_1$ & The DV after the change \\
+    \begin{tabular}{c|c|c|c|c}
+        \hline
+        Node A & A & B & C & D \\
+        \hline
+        A & 0 & 18 & 12 & 4 \\
+        B & 18 & 0 & 7 & 15 \\
+        C & \color{red}25 & 7 & 0 & \color{red}30 \\
+        D & 4 & \color{red}22 & \color{red}32 & 0 \\
+        \hline
+        \hline
+        Node B & A & B & C & D \\
+        \hline 
+        A & 0 & 18 & 12 & 4 \\
+        B & 18 & 0 & 7 & 15 \\
+        C & \color{red}25 & 7 & 0 & \color{red}30 \\
+        \hline
+        \hline
+        Node C & A & B & C & D \\
+        \hline
+        A & 0 & 18 & 12 & 4 \\
+        B & 18 & 0 & 7 & $\infty$ \\
+        C & \color{red}25 & 7 & 0 & \color{red}30 \\
+        D & 4 & \color{red}22 & \color{red}32 & 0 \\
+        \hline
+        \hline
+        Node D & A & B & C & D \\
+        \hline
+        A & 0 & 18 & $\infty$ & 4 \\
+        C & \color{red}25 & 7 & 0 & \color{red}30 \\
+        D & 4 & \color{red}22 & \color{red}32 & 0 \\
+        \hline
+    \end{tabular}
+    &  $\Rightarrow$&
+    \begin{tabular}{c|c|c|c|c}
+        \hline
+        Node A & A & B & C & D \\
+        \hline
+        A & 0 & 18 & \color{red}25 & 4 \\
+        B & 18 & 0 & 7 & 15 \\
+        C & 25 & 7 & 0 & 30 \\
+        D & 4 & 22 & 32 & 0 \\
+        \hline
+        \hline
+        Node B & A & B & C & D \\
+        \hline 
+        A & 0 & 18 & 12 & 4 \\
+        B & 18 & 0 & 7 & \color{red}22 \\
+        C & 25 & 7 & 0 & 30 \\
+        \hline
+        \hline
+        Node C & A & B & C & D \\
+        \hline
+        A & 0 & 18 & 12 & 4 \\
+        B & 18 & 0 & 7 & $\infty$ \\
+        C & 25 & 7 & 0 & \color{red}30 \\
+        D & 4 & 22 & 32 & 0 \\
+        \hline
+        \hline
+        Node D & A & B & C & D \\
+        \hline
+        A & 0 & 18 & $\infty$ & 4 \\
+        C & 25 & 7 & 0 & 30 \\
+        D & 4 & 22 & 32 & 0 \\
+        \hline
+    \end{tabular}
+\end{tabular} \\ \\
+\begin{tabular}{p{0.4\linewidth} p{0.1\linewidth} p{0.4\linewidth}}
+
+    The DV after the change & $t_2$ & The DV after the change \\
+    \begin{tabular}{c|c|c|c|c}
+        \hline
+        Node A & A & B & C & D \\
+        \hline
+        A & 0 & 18 & \color{red}25 & 4 \\
+        B & 18 & 0 & 7 & \color{red}22 \\
+        C & 25 & 7 & 0 & \color{red}30 \\
+        D & 4 & 22 & 32 & 0 \\
+        \hline
+        \hline
+        Node B & A & B & C & D \\
+        \hline 
+        A & 0 & 18 & \color{red}25 & 4 \\
+        B & 18 & 0 & 7 & \color{red}22 \\
+        C & 25 & 7 & 0 & \color{red}30 \\
+        \hline
+        \hline
+        Node C & A & B & C & D \\
+        \hline
+        A & 0 & 18 & \color{red}25 & 4 \\
+        B & 18 & 0 & 7 & \color{red}22 \\
+        C & 25 & 7 & 0 & \color{red}30 \\
+        D & 4 & 22 & 32 & 0 \\
+        \hline
+        \hline
+        Node D & A & B & C & D \\
+        \hline
+        A & 0 & 18 & \color{red}25 & 4 \\
+        C & 25 & 7 & 0 & \color{red}30 \\
+        D & 4 & 22 & 32 & 0 \\
+        \hline
+    \end{tabular}
+    &  $\Rightarrow$&
+    \begin{tabular}{c|c|c|c|c}
+        \hline
+        Node A & A & B & C & D \\
+        \hline
+        A & 0 & 18 & 25 & 4 \\
+        B & 18 & 0 & 7 & 22 \\
+        C & 25 & 7 & 0 & 30 \\
+        D & 4 & 22 & 32 & 0 \\
+        \hline
+        \hline
+        Node B & A & B & C & D \\
+        \hline 
+        A & 0 & 18 & 25 & 4 \\
+        B & 18 & 0 & 7 & 22 \\
+        C & 25 & 7 & 0 & 30 \\
+        \hline
+        \hline
+        Node C & A & B & C & D \\
+        \hline
+        A & 0 & 18 & 25 & 4 \\
+        B & 18 & 0 & 7 & 22 \\
+        C & 25 & 7 & 0 & \color{red}29 \\
+        D & 4 & 22 & 32 & 0 \\
+        \hline
+        \hline
+        Node D & A & B & C & D \\
+        \hline
+        A & 0 & 18 & 25 & 4 \\
+        C & 25 & 7 & 0 & 30 \\
+        D & 4 & 22 & \color{red}29 & 0 \\
+        \hline
+    \end{tabular} \\ \\ \\ 
+    The DV after the change & $t_3$ & The DV after the change \\
+    \begin{tabular}{c|c|c|c|c}
+        \hline
+        Node A & A & B & C & D \\
+        \hline
+        A & 0 & 18 & 25 & 4 \\
+        B & 18 & 0 & 7 & 22 \\
+        C & 25 & 7 & 0 & \color{red}29 \\
+        D & 4 & 22 & \color{red}29 & 0 \\
+        \hline
+        \hline
+        Node B & A & B & C & D \\
+        \hline 
+        A & 0 & 18 & 25 & 4 \\
+        B & 18 & 0 & 7 & 22 \\
+        C & 25 & 7 & 0 & \color{red}29 \\
+        \hline
+        \hline
+        Node C & A & B & C & D \\
+        \hline
+        A & 0 & 18 & 25 & 4 \\
+        B & 18 & 0 & 7 & 22 \\
+        C & 25 & 7 & 0 & \color{red}29 \\
+        D & 4 & 22 & \color{red}29 & 0 \\
+        \hline
+        \hline
+        Node D & A & B & C & D \\
+        \hline
+        A & 0 & 18 & 25 & 4 \\
+        C & 25 & 7 & 0 & \color{red}29 \\
+        D & 4 & 22 & \color{red}29 & 0 \\
+        \hline
+    \end{tabular}
+    &  $\Rightarrow$&
+    \begin{tabular}{c|c|c|c|c}
+        \hline
+        Node A & A & B & C & D \\
+        \hline
+        A & 0 & 18 & 25 & 4 \\
+        B & 18 & 0 & 7 & 22 \\
+        C & 25 & 7 & 0 & 29 \\
+        D & 4 & 22 & 29 & 0 \\
+        \hline
+        \hline
+        Node B & A & B & C & D \\
+        \hline 
+        A & 0 & 18 & 25 & 4 \\
+        B & 18 & 0 & 7 & 22 \\
+        C & 25 & 7 & 0 & 29 \\
+        \hline
+        \hline
+        Node C & A & B & C & D \\
+        \hline
+        A & 0 & 18 & 25 & 4 \\
+        B & 18 & 0 & 7 & 22 \\
+        C & 25 & 7 & 0 & 29 \\
+        D & 4 & 22 & 29 & 0 \\
+        \hline
+        \hline
+        Node D & A & B & C & D \\
+        \hline
+        A & 0 & 18 & 25 & 4 \\
+        C & 25 & 7 & 0 & 29 \\
+        D & 4 & 22 & 29 & 0 \\
+        \hline
+    \end{tabular}
+\end{tabular}
+
+\subsection{subquestion 4}
+No, poisoned reverse does not always solve the count to infinity problem in networking. For example If 
 \end{document}
