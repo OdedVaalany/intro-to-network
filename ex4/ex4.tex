@@ -1,0 +1,118 @@
+\documentclass{article}
+\usepackage[utf8x]{inputenc}
+% \usepackage[english,hebrew]{babel}
+% \selectlanguage{English}
+\usepackage[top=2cm,bottom=2cm,left=2.5cm,right=2cm]{geometry}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{cancel}
+\title{Ex1 | Introduction to Networks}
+\author{Eran Ston (206704512) \and Oded Vaalany (208230474)}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Question 1}
+\subsection{Part A}
+\subsubsection{}
+The optimal solution is 3 
+the flow is:
+\begin{itemize}
+    \item 1 from D$\rightarrow$B$\rightarrow$F
+    \item 1 from A$\rightarrow$E$\rightarrow$C
+    \item 1 from A$\rightarrow$F$\rightarrow$C
+\end{itemize}
+
+
+Lets assume that there is a better solution. Lets look on node F, C\\
+we can see that A can't transfer to D becuase then D needs to transfer 3 and he have only 2 edges left\\
+with total that can be transfer of 2. The same goes for transfering from D to A\\
+that means that A, D have 2 possible edges to transfer flow from\\
+A must transfer to F and E on his edges
+, and F transfers to C\\
+that means F have only one edge left that he can get flow from so the flow that D can transfer to F is at most 1 throw B\\
+that means that the flow from D to C cant get to F by any means
+
+\subsubsection{}
+Yes there is possible weights that give us the optimal solution from the previous Question\\
+the weights are:
+\begin{itemize}
+    \item $W(A,E) = 1$
+    \item $W(E,C) = 1$
+    \item $W(A,F) = 1$
+    \item $W(F,C) = 1$
+    \item $W(D,B) = 1$
+    \item $W(B,F) = 1$    
+    \item $W(\text{other edges}) = \infty$
+\end{itemize}
+the possible ways to get to C From A that arent $\infty$ are the pathes A$\rightarrow$E$\rightarrow$C , A$\rightarrow$F$\rightarrow$C\\
+and the possible way to get from D to F that arent $\infty$ is D$\rightarrow$B$\rightarrow$F\\
+\subsubsection{}
+The optimal solution to MAX Concurrent Flow is 3:
+we can see that the both A and D want to transfer 2 to C each of them , but C can only get 3 becuase the\\
+edges that are connected to C can only transfer 3\\ 
+\begin{itemize}
+    \item $A \xrightarrow{0.5}F\xrightarrow{0.5}C$
+    \item $D \xrightarrow{0.5}B\xrightarrow{0.5}F\xrightarrow{0.5}C$
+    \item $D \xrightarrow{1}C$
+    \item $A \xrightarrow{1}E\xrightarrow{1}C$
+\end{itemize}
+this soultion gives a m = 75\% each of them transfer 1.5 from the 2 they want to transfer.\\
+We say the $m = \min(m1,m2)$ where $m1 =$ minimal flow of A , $m2 =$ minimal flow of D.\\
+And the max of m1,m2 so that $m1+m2 = 3$ is $1.5$.
+\subsubsection{}
+Lets assume there is a possible solution:
+that means that A need to flow out 1.5 throw A$\rightarrow$E$\rightarrow$C and A$\rightarrow$F$\rightarrow$C and D need to flow 1.5 throw D$\rightarrow$B$\rightarrow$F$\rightarrow$C and D$\rightarrow$C\\
+with the assumptions of ECMP we need to have the same total Weights for the path from A to C , and same total weights of the path from D to C\\
+there is indeed possible solution to give them the same weights but that if we do it we can notice that it means that the flow that go throw \\
+the path D$\rightarrow$B$\rightarrow$F$\rightarrow$C will be 0.75 , and the flow of the path from A$\rightarrow$F$\rightarrow$C will be 0.75 and thats means that F will hold 1.5 of flow when he can\\
+transfer only 1 to C , with means we wont get the optimal solution of 3 , we will get 2.5.
+notice: the same way goes if we path throw the edge (A,D) we wont be able to saturate to full the edges that get to C.
+
+\subsection{Part B}
+\subsubsection{}
+Since we talking about many users that try to send request to the same dns server the error with the dest IP will not make any change since all the tupels sent to the router will have the same dest IP\\
+Also the error with the dest port will not make any change since when a user try to send a request to the DNS server he will send it to the same port\\
+So therefore the error will not make any change in the flow of the packets and the flow will be the same as the original flow.
+
+\subsubsection{}
+When the error is on the source IP and the source port the flow will be changed. for example the tuples (TCP,0.0.0.1,10,DNS IP,DNS Port) and (TCP,0.0.0.1,11,DNS IP,DNS Port) according to the original flow will be sent in a different way (if they arrived one after the other)\\
+but now with the error the tuples will be (TCP,0,0,DNS IP,DNS Port) and (TCP,0,0,DNS IP,DNS Port) those tuples will be sent in the same way and the flow will be changed (if they arrived one after the other).\\
+so actually the only factor that will change the value of next in the router will be PROTOCL and if all the users will use the same protocol the load balancer will not be able to balance the load between the users.
+
+\section{Question 2}
+
+\subsection{Part A}
+\subsubsection{}
+\begin{itemize}
+    \item until A we have slow start
+    \item from A to B we have congestion avoidance
+    \item from B to C we have 3 duplicate ACKs (window size is halfed)
+    \item from C to D we have congestion avoidance 
+    \item from D to E we have timeout
+    \item from E we have slow start
+\end{itemize}
+
+\subsubsection{Given the initial value of ssthresh is power of 2 what is the initial value of ssthresh?}
+the initial value of ssthresh is 16. becuase the congestion avoidence start at 16. 
+
+\subsection{Part B}
+\subsubsection{}
+We will start from 1 and we will grow linearity until we reach R.\\
+And then we will down to $\frac{R}{2}$ and again we will grow linearity until we reach R.\\
+And then we will down to $\frac{R}{2}$ and again we will grow linearity until we reach R.\\
+And then we will down to $\frac{R}{2}$ and again we will grow linearity until we reach R.\\
+And then we will down to $\frac{R}{2}$ and again we will grow linearity until we reach R.\\
+And therefore and so on.\\
+So the avarage will be $\sum_{i=0}^{\frac{R}{2}} \frac{R}{2}+i$ and the avarage of this sum is $\frac{3}{4}R$
+
+\subsubsection{}
+
+\subsubsection{}
+
+\subsubsection{}
+
+
+\end{document} 

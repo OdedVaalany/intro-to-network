@@ -490,7 +490,7 @@ Now the edge CD changes from 8 to 32. we will show the distance vectors of all t
     \hline
     A & 0 & 18 & 12 & 4 \\
     B & 18 & 0 & 7 & 15 \\
-    C & 25 & 7 & 0 & \color{red}30 \\
+    C & 25 & 7 & 0 & \color{red}22 \\
     D & 4 & 22 & 16 & 0 \\
     \hline
     \hline
@@ -516,7 +516,7 @@ Now the edge CD changes from 8 to 32. we will show the distance vectors of all t
         \hline
         A & 0 & 18 & \color{red}20 & 4 \\
         B & 18 & 0 & 7 & \color{red}22 \\
-        C & 25 & 7 & 0 & \color{red}30 \\
+        C & 25 & 7 & 0 & \color{red}22 \\
         D & 4 & 22 & 16 & 0 \\
         \hline
         \hline
@@ -524,21 +524,21 @@ Now the edge CD changes from 8 to 32. we will show the distance vectors of all t
         \hline 
         A & 0 & 18 & \color{red}20 & 4 \\
         B & 18 & 0 & 7 & \color{red}22 \\
-        C & 25 & 7 & 0 & \color{red}30 \\
+        C & 25 & 7 & 0 & \color{red}22 \\
         \hline
         \hline
         Node C & A & B & C & D \\
         \hline
         A & 0 & 18 & \color{red}20 & 4 \\
         B & 18 & 0 & 7 & \color{red}22 \\
-        C & 25 & 7 & 0 & \color{red}30 \\
+        C & 25 & 7 & 0 & \color{red}22 \\
         D & 4 & 22 & 16 & 0 \\
         \hline
         \hline
         Node D & A & B & C & D \\
         \hline
         A & 0 & 18 & \color{red}20 & 4 \\
-        C & 25 & 7 & 0 & \color{red}30 \\
+        C & 25 & 7 & 0 & \color{red}22 \\
         D & 4 & 22 & 16 & 0 \\
         \hline
     \end{tabular}
@@ -549,7 +549,7 @@ Now the edge CD changes from 8 to 32. we will show the distance vectors of all t
     \hline
     A & 0 & 18 & 20 & 4 \\
     B & 18 & 0 & 7 & 22 \\
-    C & 25 & 7 & 0 & 30 \\
+    C & 25 & 7 & 0 & 22 \\
     D & 4 & 22 & 16 & 0 \\
     \hline
     \hline
@@ -557,7 +557,7 @@ Now the edge CD changes from 8 to 32. we will show the distance vectors of all t
     \hline 
     A & 0 & 18 & 20 & 4 \\
     B & 18 & 0 & 7 & 22 \\
-    C & 25 & 7 & 0 & 30 \\
+    C & 25 & 7 & 0 & 22 \\
     \hline
     \hline
     Node C & A & B & C & D \\
@@ -926,5 +926,19 @@ Now we will show the run using the poisoned reverse technique.\\
 \end{tabular}
 
 \subsection{subquestion 4}
-No, poisoned reverse does not always solve the count to infinity problem in networking. For example If 
+No, poisoned reverse does not always solve the count to infinity problem in networking. For example If\\
+\includegraphics[width=1\textwidth]{image.png} 
+\newline
+When link breaks, C marks D as unreachable and reports that to A and B.
+\begin{itemize}
+    \item Suppose A learns it first
+    \begin{itemize}
+        \item A now thinks best path to D is through B
+        \item A reports D unreachable to B and a route of cost=3 to C
+    \end{itemize}
+    \item C thinks D is reachable through A at cost 4 and reports that to B
+    \item B reports a cost 5 to A who reports new cost to C
+    \item etc...
+\end{itemize}
+\textbf{Note} that in this case the loop will occur at each step (it won’t halt)
 \end{document}
